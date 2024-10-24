@@ -1,36 +1,21 @@
-import { useState } from "react";
-
-import AllMeetupsPage from "./pages/AllMeetupsPage";
-import FavoritesPage from "./pages/Favorites";
-import NewMeetupsPage from "./pages/NewMeetup";
-import { ALL_MEETUP_PAGE, FAVORITES_PAGE, NEW_MEETUP_PAGE } from "./utils/constants";
-
-import MainNavigation from "./components/layout/MainNavigation";
-import Layout from "./components/layout/Layout";
+import { Route, Routes } from 'react-router-dom'; // Importamos Routes y Route para manejar las rutas
+import Layout from './components/layout/Layout';
+import MainNavigation from './components/layout/MainNavigation';
+import AllMeetupsPage from './pages/AllMeetupsPage';
+import FavoritesPage from './pages/Favorites';
+import NewMeetupsPage from './pages/NewMeetup';
 
 function App() {
-  const [page, setPage] = useState(ALL_MEETUP_PAGE);
-
-  function getCurrentPageComponent() {
-    let currentPageComponent = <AllMeetupsPage />;
-    switch (page) {
-      case FAVORITES_PAGE:
-        currentPageComponent = <FavoritesPage />;
-        break;
-      case NEW_MEETUP_PAGE:
-        currentPageComponent = <NewMeetupsPage />;
-        break;
-      default:
-        currentPageComponent = <AllMeetupsPage />;
-    }
-
-    return currentPageComponent;
-  }
-
   return (
     <div data-test="app">
-      <MainNavigation setPage={setPage} />
-      <Layout>{getCurrentPageComponent()}</Layout>
+      <MainNavigation />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<AllMeetupsPage />} />
+          <Route path="/new-meetup" element={<NewMeetupsPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+        </Routes>
+      </Layout>
     </div>
   );
 }
